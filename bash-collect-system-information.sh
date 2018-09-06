@@ -19,6 +19,9 @@ main() {
 
     os_version=$(uname -a)
     echo "OS Version: $os_version"
+
+    cpu_info=$(lscpu | grep "Model name" | awk '{print $3, $4, $5}')
+    echo "CPU Info: $cpu_info"
 }
 
 main
