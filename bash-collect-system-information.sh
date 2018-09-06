@@ -39,6 +39,12 @@ main() {
 
     domain=$(domainname)
     echo "Domain: $domain"
+
+    # Need to do "List of all users" section
+
+    services_on_boot=$(systemctl list-unit-files --type=service | grep enabled | awk '{print $1}' | sed ':a;N;$!ba;s/\n/, /g')
+
+    echo "Services on Boot: $services_on_boot"
 }
 
 main
