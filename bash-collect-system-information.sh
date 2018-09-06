@@ -28,6 +28,9 @@ main() {
 
     total_hdd_size=$(lsblk --output SIZE -n | head -n 1 | cut -c 2-)
     echo "HDD Size: $total_hdd_size"
+
+    hard_drives=$(lsblk | awk '{if ($6 == "disk") print $1}' | sed ':a;N;$!ba;s/\n/, /g')
+    echo "Hard Drives: $hard_drives"
 }
 
 main
