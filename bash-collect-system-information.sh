@@ -36,6 +36,9 @@ main() {
 
     hostname=$(hostname)
     echo "Hostname: $hostname"
+
+    domain=$(domainname)
+    echo "Domain: $domain"
 }
 
 main
