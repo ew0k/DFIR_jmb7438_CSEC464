@@ -22,6 +22,9 @@ main() {
 
     cpu_info=$(lscpu | grep "Model name" | awk '{print $3, $4, $5}')
     echo "CPU Info: $cpu_info"
+    
+    ram_size=$(grep MemTotal /proc/meminfo | awk '{print $2/(1024*1024) " GB"}')
+    echo "RAM size: $ram_size"
 }
 
 main
