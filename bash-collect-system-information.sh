@@ -31,6 +31,11 @@ main() {
 
     hard_drives=$(lsblk | awk '{if ($6 == "disk") print $1}' | sed ':a;N;$!ba;s/\n/, /g')
     echo "Hard Drives: $hard_drives"
+
+    # Need to list mounted file systems
+
+    hostname=$(hostname)
+    echo "Hostname: $hostname"
 }
 
 main
