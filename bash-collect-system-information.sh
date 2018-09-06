@@ -16,6 +16,9 @@ main() {
 
     uptime=$(uptime --pretty)
     echo "Uptime: $uptime"
+
+    os_version=$(uname -a)
+    echo "OS Version: $os_version"
 }
 
 main
