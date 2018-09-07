@@ -71,6 +71,13 @@ main() {
 
     dns_server=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
     echo "DNS Server: $dns_server"
+
+    default_gateways=$(ip r | grep default | awk '{print $5 ": " $3}' | sed ':a;N;$!ba;s/\n/, /g')
+    echo "Default Gateways: $default_gateways"
+    
+    # NOTE: NEED SUDO PRIVS FOR OUTPUT
+    listening_services=$(sudo netstat -plnt)
+    echo -e "Listening Services:\n$listening_services"
 }
 
 main
