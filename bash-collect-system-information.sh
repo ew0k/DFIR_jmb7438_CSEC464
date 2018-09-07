@@ -59,6 +59,12 @@ main() {
 
     routing_table=$(route -n)
     echo -e "Routing Table:\n$routing_table"
+
+    interfaces=$(netstat -i | tail -n+3 | awk '{print $1}')
+    ipv4_addresses=$(ip addr | awk '/^[0-9]+:/ {sub(/:/,"",$2); iface=$2 }/^[[:space:]]*inet / {split($2, a, "/"); print iface": "a[1]}' | sed ':a;N;$!ba;s/\n/, /g')
+    ipv6_addresses=$(ip addr | awk '/^[0-9]+:/ {sub(/:/,"",$2); iface=$2 }/^[[:space:]]*inet6 / {split($2, a, "/"); print iface": "a[1]}' | sed ':a;N;$!ba;s/\n/, /g')
+    echo "IPv4 Addresses: $ipv4_addresses"
+    echo "IPv6 Addresses: $ipv6_addresses"
 }
 
 main
