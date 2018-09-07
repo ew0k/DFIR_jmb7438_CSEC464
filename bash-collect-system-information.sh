@@ -50,6 +50,10 @@ main() {
     if [ ${#task_list_cron} -le 1 ]; then echo "Task List: None"; exit
     else echo "Task List (cron): $task_list_cron"
     fi
+
+    arp_table=$(arp)
+    echo -e "ARP Table:\n$arp_table"
+
 }
 
 main
