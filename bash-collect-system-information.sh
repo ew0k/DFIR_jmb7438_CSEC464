@@ -41,6 +41,8 @@ main() {
     echo "Domain: $domain"
 
     # Need to do "List of all users" section
+    users=$(awk -F ":" '{print "User: " $1 ", UID: " $3 ", GID: " $4 }' /etc/passwd)
+    echo -e "User Info:\n$users"
 
     services_on_boot=$(systemctl list-unit-files --type=service | grep enabled | awk '{print $1}' | sed ':a;N;$!ba;s/\n/, /g')
 
