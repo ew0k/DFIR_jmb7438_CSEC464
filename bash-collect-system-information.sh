@@ -108,8 +108,14 @@ main() {
     elif [[ ! -z $dnf ]]; then
         installed_software=$(dnf list installed)
     fi
-
     echo -e "Installed Software:\n$installed_software"
+
+    processes=$(ps -eo cmd,pid,ppid,fname,user)
+    echo -e "Process List:\n$processes"
+
+    drivers=$(modinfo $(lsmod | tail -n +2 | awk '{print $1}'))
+    echo -e "Driver List:\n$drivers"
+
 }
 
 main
