@@ -45,6 +45,11 @@ main() {
     services_on_boot=$(systemctl list-unit-files --type=service | grep enabled | awk '{print $1}' | sed ':a;N;$!ba;s/\n/, /g')
 
     echo "Services on Boot: $services_on_boot"
+
+    task_list_cron=$(crontab -l)
+    if [ ${#task_list_cron} -le 1 ]; then echo "Task List: None"; exit
+    else echo "Task List (cron): $task_list_cron"
+    fi
 }
 
 main
