@@ -45,7 +45,7 @@ main() {
     echo -e "User Info:\n$users"
 
     login_history=$(last)
-    echo -e "User Login History\n$login_history"
+    echo -e "User Login History:\n$login_history"
 
     services_on_boot=$(systemctl list-unit-files --type=service | grep enabled | awk '{print $1}' | sed ':a;N;$!ba;s/\n/, /g')
 
@@ -87,6 +87,11 @@ main() {
     # NOTE: NEED SUDO PRIVS FOR OUTPUT
     established_services=$(sudo netstat -pnt | grep -E '(State|ESTABLISHED)')
     echo -e "Established Services:\n$established_services"
+
+    printers=$(lpstat -p 2> /dev/null)
+    if [ ${#printers} -le 1 ]; then echo "Printers: None"; exit
+    else echo -e "Printers:\n$printers"
+    fi
 }
 
 main
