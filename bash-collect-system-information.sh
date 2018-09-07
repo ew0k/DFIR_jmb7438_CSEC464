@@ -68,6 +68,9 @@ main() {
 
     dhcp_server=$(grep "option dhcp-server-identifier" /var/lib/dhcp/dhclient.leases | sort -u | awk '{print $3}' | sed 's/;//g')
     echo "DHCP Server: $dhcp_server"
+
+    dns_server=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+    echo "DNS Server: $dns_server"
 }
 
 main
