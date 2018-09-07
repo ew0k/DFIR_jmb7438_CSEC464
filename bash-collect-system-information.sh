@@ -53,7 +53,7 @@ main() {
 
     task_list_cron=$(crontab -l)
     if [ ${#task_list_cron} -le 1 ]; then echo "Task List: None"; exit
-    else echo "Task List (cron): $task_list_cron"
+    else echo -e "Task List (cron):\n$task_list_cron"
     fi
 
     arp_table=$(arp)
@@ -89,9 +89,27 @@ main() {
     echo -e "Established Services:\n$established_services"
 
     printers=$(lpstat -p 2> /dev/null)
-    if [ ${#printers} -le 1 ]; then echo "Printers: None"; exit
+    if [ ${#printers} -le 1 ]; then echo "Printers: None"
     else echo -e "Printers:\n$printers"
     fi
+
+    yum=$(which yum)
+    dpkg=$(which dpkg)
+    pacman=$(which pacman)
+    dnf=$(which dnf)
+    installed_software=""
+
+    if [[ ! -z $yum ]]; then
+        installed_software=$(yum list installed)
+    elif [[ ! -z $dpkg ]]; then
+        installed_software=$(dpkg -l)
+    elif [[ ! -z $pacman ]]; then
+        installed_software=$(pacman -Q)
+    elif [[ ! -z $dnf ]]; then
+        installed_software=$(dnf list installed)
+    fi
+
+    echo -e "Installed Software:\n$installed_software"
 }
 
 main
