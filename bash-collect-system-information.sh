@@ -78,6 +78,10 @@ main() {
     # NOTE: NEED SUDO PRIVS FOR OUTPUT
     listening_services=$(sudo netstat -plnt)
     echo -e "Listening Services:\n$listening_services"
+
+    # NOTE: NEED SUDO PRIVS FOR OUTPUT
+    established_services=$(sudo netstat -pnt | grep -E '(State|ESTABLISHED)')
+    echo -e "Established Services:\n$established_services"
 }
 
 main
