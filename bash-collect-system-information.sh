@@ -56,6 +56,9 @@ main() {
 
     mac_addresses=$(ip -o link | awk '{print $2,$(NF-2)}')
     echo -e "MAC Addresses:\n$mac_addresses"
+
+    routing_table=$(route -n)
+    echo -e "Routing Table:\n$routing_table"
 }
 
 main
