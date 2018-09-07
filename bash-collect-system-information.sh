@@ -54,6 +54,8 @@ main() {
     arp_table=$(arp)
     echo -e "ARP Table:\n$arp_table"
 
+    mac_addresses=$(ip -o link | awk '{print $2,$(NF-2)}')
+    echo -e "MAC Addresses:\n$mac_addresses"
 }
 
 main
