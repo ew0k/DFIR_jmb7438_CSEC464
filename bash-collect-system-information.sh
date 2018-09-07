@@ -44,6 +44,9 @@ main() {
     users=$(awk -F ":" '{print "User: " $1 ", UID: " $3 ", GID: " $4 }' /etc/passwd)
     echo -e "User Info:\n$users"
 
+    login_history=$(last)
+    echo -e "User Login History\n$login_history"
+
     services_on_boot=$(systemctl list-unit-files --type=service | grep enabled | awk '{print $1}' | sed ':a;N;$!ba;s/\n/, /g')
 
     echo "Services on Boot: $services_on_boot"
