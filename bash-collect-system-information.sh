@@ -11,15 +11,23 @@
 # }
 
 main() {
+    echo "====================Time======================="
     current_time=$(date +%H:%M:%S\ %Z)
     echo "Current Time: $current_time"
 
     uptime=$(uptime --pretty)
     echo "Uptime: $uptime"
+    echo "==============================================="
+    echo
+    
 
+    echo "===================OS Info====================="
     os_version=$(uname -a)
     echo "OS Version: $os_version"
+    echo "==============================================="
+    echo
 
+    echo "============System Hardware Specs=============="
     cpu_info=$(lscpu | grep "Model name" | awk '{print $3, $4, $5}')
     echo "CPU Info: $cpu_info"
     
@@ -31,31 +39,43 @@ main() {
 
     hard_drives=$(lsblk | awk '{if ($6 == "disk") print $1}' | sed ':a;N;$!ba;s/\n/, /g')
     echo "Hard Drives: $hard_drives"
-
-    # Need to list mounted file systems
-
+    echo "==============================================="
+    echo
+    
+    echo "=========Hostname and Domain==================="
     hostname=$(hostname)
     echo "Hostname: $hostname"
 
     domain=$(domainname)
     echo "Domain: $domain"
-
-    # Need to do "List of all users" section
+    echo "==============================================="
+    echo
+    
+    echo "=================User Info====================="
     users=$(awk -F ":" '{print "User: " $1 ", UID: " $3 ", GID: " $4 }' /etc/passwd)
     echo -e "User Info:\n$users"
 
     login_history=$(last)
     echo -e "User Login History:\n$login_history"
+    echo "==============================================="
+    echo
 
+    echo "=============Start at boot====================="
     services_on_boot=$(systemctl list-unit-files --type=service | grep enabled | awk '{print $1}' | sed ':a;N;$!ba;s/\n/, /g')
 
     echo "Services on Boot: $services_on_boot"
+    echo "==============================================="
+    echo
 
+    echo "==========List of Scheduled Task==============="
     task_list_cron=$(crontab -l)
     if [ ${#task_list_cron} -le 1 ]; then echo "Task List: None"; exit
     else echo -e "Task List (cron):\n$task_list_cron"
     fi
+    echo "==============================================="
+    echo
 
+    echo "==================Network======================"
     arp_table=$(arp)
     echo -e "ARP Table:\n$arp_table"
 
@@ -92,7 +112,10 @@ main() {
     if [ ${#printers} -le 1 ]; then echo "Printers: None"
     else echo -e "Printers:\n$printers"
     fi
+    echo "==============================================="
+    echo
 
+    echo "=============Installed Software================"
     yum=$(which yum)
     dpkg=$(which dpkg)
     pacman=$(which pacman)
@@ -109,12 +132,30 @@ main() {
         installed_software=$(dnf list installed)
     fi
     echo -e "Installed Software:\n$installed_software"
+    echo "==============================================="
+    echo
 
+    echo "================Process List==================="
     processes=$(ps -eo cmd,pid,ppid,fname,user)
     echo -e "Process List:\n$processes"
-
+    echo "==============================================="
+    echo
+    
+    echo "=================Driver List==================="
     drivers=$(modinfo $(lsmod | tail -n +2 | awk '{print $1}'))
     echo -e "Driver List:\n$drivers"
+    echo "==============================================="
+    echo
+
+    home_directories=$(ls /home)
+    for usr in $home_directories;
+    do
+        echo "==================User: $usr==================="
+        echo -e "$usr Documents:\n\t$(ls /home/$usr/Documents/ | sed ':a;N;$!ba;s/\n/, /g')"
+        echo -e "$usr Downloads:\n\t$(ls /home/$usr/Downloads/ | sed ':a;N;$!ba;s/\n/, /g')"
+        echo "==============================================="
+        echo
+    done
 
 }
 
