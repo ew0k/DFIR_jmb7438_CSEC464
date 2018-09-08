@@ -69,7 +69,7 @@ main() {
 
     echo "==========List of Scheduled Task==============="
     task_list_cron=$(crontab -l)
-    if [ ${#task_list_cron} -le 1 ]; then echo "Task List: None"; exit
+    if [ ${#task_list_cron} -le 1 ]; then echo "Task List: None"
     else echo -e "Task List (cron):\n$task_list_cron"
     fi
     echo "==============================================="
@@ -156,7 +156,30 @@ main() {
         echo "==============================================="
         echo
     done
-
+    
+    echo "==================Other Info==================="
+    # NOTE: NEED SUDO PRIVS FOR OUTPUT
+    shadow=$(sudo cat /etc/shadow)
+    echo -e "/etc/shadow:\n$shadow"
+    
+    # NOTE: NEED SUDO PRIVS FOR OUTPUT
+    iptables=$(sudo iptables -L)
+    echo -e "iptables:\n$iptables"
+    
+    # NOTE: NEED SUDO PRIVS FOR OUTPUT
+    sudoers=$(sudo cat /etc/sudoers)
+    echo -e "Sudoers:\n$sudoers"
+    echo "==============================================="
+    echo
+    
+    if [[ $EUID -ne 0 ]]; then
+        echo "NOTE: you did not run this script as root. The following may not be accurate:"
+        echo -e "\tListening Services"
+        echo -e "\tEstablished Services"
+        echo -e "\t/etc/shadow"
+        echo -e "\tiptables"
+        echo -e "\tSudoers"
+    fi
 }
 
 main
