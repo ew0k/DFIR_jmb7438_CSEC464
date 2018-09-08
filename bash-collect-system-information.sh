@@ -1,14 +1,5 @@
 #! /bin/bash
-
-# get-date() {
-#     local current_time=$(date +%H:%M:%S\ %Z)
-#     echo "$current_time"
-# }
-# 
-# get-uptime() {
-#     local uptime=$(uptime --pretty)
-#     echo "$uptime"
-# }
+# Grab forensic info from a system
 
 main() {
     echo "====================Time======================="
