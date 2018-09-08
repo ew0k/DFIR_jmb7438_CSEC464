@@ -180,6 +180,18 @@ main() {
         echo -e "\tiptables"
         echo -e "\tSudoers"
     fi
+
+    #email=""
+    #echo "Enter email if desired (Enter for no email): "
+    read -p "Enter email if desired (Enter nothing for no email): " email
+    if [ ${#email} -le 1 ]; then 
+        echo "No email" | tee -a output.csv
+    else 
+        mail -s "Forensics Output" $email
+        echo -e "Emailed to: $email" | tee -a output.csv
+    fi
+
+
 }
 
 main
